@@ -1,0 +1,14 @@
+.choice-m {
+  @apply text-green-500 flex items-center;
+  &:before {
+    content: "";
+    @apply block w-2 h-2 bg-green-500 mr-2 rounded-full;
+  }
+}
+.choice-w {
+  @apply text-blue-500 flex items-center;
+  &:before {
+    content: "";
+    @apply block w-2 h-2 bg-blue-500 mr-2 rounded-full;
+  }
+}

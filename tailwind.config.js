@@ -5,6 +5,8 @@ module.exports = {
     extend: {
       colors: {
         primary: "var(--primary-cl)",
+        "primary-dark": "var(--primary-dark-cl)",
+        "primary-light": "var(--primary-light-cl)",
         success: "var(--sucess-cl)",
         danger: "var(--danger-cl)",
         warning: "var(--warning-cl)",

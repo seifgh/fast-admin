@@ -8,6 +8,7 @@
         without relying on meaningful content. Lorem ipsum may be used as a
         placeholder before the final copy is available.
       </p>
+      <div class="image"></div>
     </div>
     <div class="right">
       <div class="content" anim="fade-up">
@@ -54,6 +55,10 @@ export default {
       await this.logIn(this.$data);
       setTimeout(() => {
         loading.close();
+        this.$store.commit("setUser", {
+          fullName: "Seif Gharres",
+        });
+        this.$router.push("/");
         this.showLoginError = true;
       }, 2000);
     },
@@ -76,12 +81,19 @@ export default {
   }
 }
 .left {
-  @apply bg-primary items-start justify-start text-left p-8 text-white;
+  @apply overflow-hidden bg-primary items-start 
+  justify-start text-left p-8 text-white;
   h2 {
     @apply mb-8;
   }
   p {
     @apply text-lg;
+  }
+  .image {
+    height: 400px;
+    right: 2.5rem;
+    @apply relative bg-gray-100 block w-full rounded-lg shadow-md
+    mt-12;
   }
 }
 .right {

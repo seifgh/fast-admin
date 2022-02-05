@@ -7,25 +7,29 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "types": "./types/index.d.ts",
   "dependencies": {
     "@tailwindcss/postcss7-compat": "^2.2.17",
+    "@vue/cli-plugin-eslint": "^4.5.15",
     "autoprefixer": "^9",
+    "axios": "^0.25.0",
     "boxicons": "^2.1.1",
     "core-js": "^3.6.5",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
-    "vuesax": "^4.0.1-alpha.25"
+    "vuesax": "^4.0.1-alpha.25",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-jsdoc": "^7.2.3",
+    "eslint-plugin-vue": "^8.4.0",
     "sass": "^1.49.0",
     "sass-loader": "^10.2.1",
     "vue-cli-plugin-tailwind": "~2.2.18",
@@ -44,7 +48,12 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "plugins": [
+      "jsdoc"
+    ],
+    "rules": {
+      "vue/multi-word-component-names": 0
+    }
   },
   "browserslist": [
     "> 1%",

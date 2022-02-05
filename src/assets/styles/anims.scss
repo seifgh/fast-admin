@@ -60,7 +60,7 @@
 
 @keyframes fadeInUp {
   from {
-    transform: translate3d(0, 80px, 0);
+    transform: translate3d(0, 20px, 0);
     opacity: 0;
   }
 
@@ -72,7 +72,7 @@
 
 @keyframes fadeInDown {
   from {
-    transform: translate3d(0, -40px, 0);
+    transform: translate3d(0, -20px, 0);
     opacity: 0;
   }
 
@@ -84,7 +84,7 @@
 
 @keyframes fadeInLeft {
   from {
-    transform: translate3d(-40px, 0, 0);
+    transform: translate3d(-20px, 0, 0);
     opacity: 0;
   }
 
@@ -96,7 +96,7 @@
 
 @keyframes fadeInRight {
   from {
-    transform: translate3d(40px, 0, 0);
+    transform: translate3d(20px, 0, 0);
     opacity: 0;
   }
 

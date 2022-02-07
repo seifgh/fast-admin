@@ -3,7 +3,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  metaInfo: {
+    title: "404 Not found",
+  },
+};
 </script>
 
 <style>

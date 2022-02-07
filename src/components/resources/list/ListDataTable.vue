@@ -148,22 +148,15 @@ export default {
       this.selected = [];
       this.unexpectedError = false;
       this.isLoading = true;
-      this.vsLoading = this.$vs.loading({
-        text: "Loading ...",
-      });
+      this.$startLoading();
     },
     handleAfterFetchActions() {
-      this.vsLoading && this.vsLoading.close();
+      this.$closeLoading();
       this.isLoading = false;
     },
     handleApiFetchErrors(err) {
       this.unexpectedError = true;
-      this.$vs.notification({
-        position: "bottom-right",
-        color: "danger",
-        title: "Unexpected error",
-        text: "Please check your connection or open the console to know more!",
-      });
+      this.$notify({ messageRef: "UNEXPECTED_ERROR" });
       console.log(err);
     },
     isChecked(itemIndex) {

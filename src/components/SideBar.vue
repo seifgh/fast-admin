@@ -58,16 +58,15 @@
         <span class="link-title"> {{ resource.name }}</span>
       </router-link>
     </section>
-    <section class="bottom">
-      <uil-button
-        class="toggle-btn"
-        @click="reduce = !reduce"
-        size="sq-sm"
-        type="lt"
-      >
-        <i class="bx" :class="reduce ? 'bx-menu' : 'bx-menu-alt-left'"></i>
-      </uil-button>
-    </section>
+    <section class="bottom"></section>
+    <uil-button
+      class="toggle-btn"
+      @click="reduce = !reduce"
+      size="sq-sm"
+      type="lt"
+    >
+      <i class="bx" :class="reduce ? 'bx-menu' : 'bx-menu-alt-left'"></i>
+    </uil-button>
   </aside>
 </template>
 
@@ -129,34 +128,29 @@ export default {
 </script>
 <style lang="scss" scoped>
 aside {
-  width: 350px;
-  z-index: 999;
+  --aside-width: 350px;
+  width: var(--aside-width);
   @apply absolute bg-white p-4 pl-0 h-screen 
-  overflow-hidden overflow-y-auto border-r transition-all;
+  overflow-hidden overflow-y-auto border-r transition-all z-50;
   @screen md {
     @apply relative;
   }
   &.reduced {
     @apply relative pt-14;
-    width: 55px;
+    --aside-width: 55px;
     .header {
-      width: 55px;
+      width: var(--aside-width);
     }
     .group {
       .links {
         @apply ml-0;
       }
     }
-    .link {
-      &:hover {
-        @apply pl-4;
-      }
-    }
   }
 }
 .header {
-  width: 200px;
-  @apply px-2;
+  max-width: 200px;
+  @apply px-2 w-full;
 }
 .content {
   @apply mt-8;
@@ -166,9 +160,6 @@ aside {
   text-gray-500 font-semibold transition-all;
   i {
     @apply mr-4 text-xl;
-  }
-  &:hover {
-    @apply pl-5;
   }
   &.active {
     @apply text-primary;

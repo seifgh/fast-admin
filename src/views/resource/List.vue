@@ -12,6 +12,11 @@ import resourceMixin from "./../../components/mixins/resourceMixin";
 export default {
   components: { ListHeader, ListDataTable },
   mixins: [resourceMixin],
+  metaInfo() {
+    return {
+      title: this.resource.name,
+    };
+  },
 };
 </script>
 

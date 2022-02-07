@@ -1,7 +1,7 @@
 <template>
-  <div class="logo" to="/" :class="{ reduce }">
+  <router-link class="logo" to="/" :class="{ reduce }">
     <img src="@/assets/images/logo.svg" />
-  </div>
+  </router-link>
 </template>
 
 <script>

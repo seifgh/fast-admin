@@ -8,22 +8,16 @@
       </template>
 
       <template #content>
-        <div class="dropdown-actions">
-          <button
-            class="btn"
-            @click="routeTo({ name: 'Show', params: { itemId } })"
-          >
+        <div class="dropdown-actions" @click.stop>
+          <router-link class="btn" :to="{ name: 'Show', params: { itemId } }">
             <i class="bx bx-show" />
             Show
-          </button>
-          <button
-            class="btn"
-            @click="routeTo({ name: 'Edit', params: { itemId } })"
-          >
+          </router-link>
+          <router-link class="btn" :to="{ name: 'Edit', params: { itemId } }">
             <i class="bx bx-edit-alt" />
             Edit
-          </button>
-          <button class="btn danger" @click="$emit('delete', itemId)">
+          </router-link>
+          <button class="btn danger" @click.stop="handleDelete">
             <i class="bx bx-trash" />
             Delete
           </button>
@@ -44,13 +38,12 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    open: false,
-  }),
   methods: {
-    routeTo(routerTo) {
-      this.open = false;
-      this.$nextTick(() => this.$router.push(routerTo));
+    handleDelete() {
+      if (window.confirm("Are you sure you want to delete this element?")) {
+        this.$emit("delete", this.itemId);
+      }
+      document.scrollingElement.click();
     },
   },
 };

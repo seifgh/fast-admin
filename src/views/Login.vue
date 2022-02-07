@@ -14,7 +14,7 @@
       <div class="content" anim="fade-up">
         <h1>Sign In</h1>
 
-        <vs-alert
+        <!-- <vs-alert
           relief
           color="danger"
           :closable="true"
@@ -34,7 +34,7 @@
             </template>
           </vs-input>
           <vs-button block> Sign In </vs-button>
-        </form>
+        </form> -->
       </div>
     </div>
   </section>
@@ -42,6 +42,9 @@
 
 <script>
 export default {
+  metaInfo: {
+    title: "Login",
+  },
   data: () => ({
     email: "",
     password: "",

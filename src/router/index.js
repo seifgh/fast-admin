@@ -4,11 +4,11 @@ import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
 import Dashboard from "../views/Dashboard.vue";
-import Resource from "../views/resource/Index.vue";
-import List from "../views/resource/List.vue";
-import Create from "../views/resource/Create.vue";
-import Show from "../views/resource/Show.vue";
-import Edit from "../views/resource/Edit.vue";
+import Resource from "../views/resources/Index.vue";
+import List from "../views/resources/List.vue";
+import Create from "../views/resources/Create.vue";
+import Show from "../views/resources/Show.vue";
+import Edit from "../views/resources/Edit.vue";
 import NotFound from "../views/NotFound.vue";
 // guards
 import isAuth from "../guards/isAuth";

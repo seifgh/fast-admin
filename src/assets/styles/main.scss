@@ -2,3 +2,7 @@
 @import url("./anims.scss");
 @import url("./layout.scss");
 @import url("./custom.scss");
+
+:root {
+  @apply text-gray-800;
+}

@@ -14,6 +14,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 span {
-  @apply py-1 px-2 border rounded-lg text-gray-600;
+  @apply py-1 px-2 border rounded-lg;
 }
 </style>

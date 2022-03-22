@@ -1,7 +1,10 @@
 <template>
   <section class="home">
     <side-bar />
-    <router-view class="content" />
+    <div class="content">
+      <loading id="home" />
+      <router-view />
+    </div>
   </section>
 </template>
 
@@ -21,6 +24,6 @@ export default {
   @apply h-screen overflow-hidden flex items-start;
 }
 .content {
-  @apply block relative w-full overflow-y-auto h-full;
+  @apply block relative w-full overflow-y-auto h-full min-h-screen;
 }
 </style>

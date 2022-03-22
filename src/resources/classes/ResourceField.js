@@ -5,34 +5,40 @@ export class ResourceFieldType {
     NUMBER: "number",
     FILE: "file",
     IMAGE: "image",
-    REFRENCE: "reference",
+    RESOURCE: "resource",
     DATE: "date",
     BOOLEAN: "boolean",
   };
   /**
-   * @typedef {function(string): string} c
    * @param {Object} resourceFieldType
-   * @param {"text" | "boolean" | "string" | "number" | "date" | "file" | "image" | "reference"} resourceFieldType.type
+   * @param {"text" | "boolean" | "string" | "number" | "date" | "file" | "image" | "resource"} resourceFieldType.type
+   * @param {boolean?} resourceFieldType.isReference
+   * @param {import("./Resource").default?} resourceFieldType.resource
    * @param {Array<{value: string|number, label: string|number, className: string?}>} resourceFieldType.choices
-   * @param {string?} resourceFieldType.refResource
    * @param {boolean?} resourceFieldType.isMultiple
-   * @param {function(any): string} valueFormater - Extract the final value from fetched value
+   * @param {{list: function(any): string, show: function(any): string }} valueFormater - Extract the final value from fetched value
    * @param {function(any): string} fileUrlGetter - get file or image url
+   * @param {{list: any, show: any }} customComponents - Custom vue components for field type
    */
   constructor({
     type,
+    isReference = false,
+    resource = null,
     choices = null,
-    refResourceId = null,
     isMultiple = false,
-    valueFormater = null,
+    valueFormater = { list: null, show: null },
     fileUrlGetter = (v) => v,
+    customComponents = { list: null, show: null },
   }) {
     this.type = type;
     this.choices = choices;
-    this.refResourceId = refResourceId;
     this.isMultiple = isMultiple;
     this.valueFormater = valueFormater;
     this.fileUrlGetter = fileUrlGetter;
+    // For RESOURCE type
+    this.isReference = isReference;
+    this.resource = resource;
+    this.customComponents = customComponents;
   }
 
   get isString() {
@@ -50,8 +56,8 @@ export class ResourceFieldType {
   get isFile() {
     return this.type == ResourceFieldType.types.FILE;
   }
-  get isReference() {
-    return this.type == ResourceFieldType.types.REFRENCE;
+  get isResource() {
+    return this.type == ResourceFieldType.types.RESOURCE;
   }
   get isImage() {
     return this.type == ResourceFieldType.types.IMAGE;
@@ -87,6 +93,7 @@ export default class ResourceField {
    * @param {{list: boolean, show: boolean, create:boolean, edit: boolean}?} resourceField.display
    * @param {boolean?} resourceField.isTitle
    * @param {boolean?} resourceField.sort
+   * @param {boolean?} resourceField.filter
    */
   constructor({
     id,
@@ -101,6 +108,7 @@ export default class ResourceField {
     },
     isTitle = false,
     sort = true,
+    filter = true,
   }) {
     this.id = id;
     this.type = type;
@@ -109,5 +117,6 @@ export default class ResourceField {
     this.display = display;
     this.isTitle = isTitle;
     this.sort = sort;
+    this.filter = filter;
   }
 }

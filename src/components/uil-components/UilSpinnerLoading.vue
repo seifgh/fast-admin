@@ -1,8 +1,8 @@
 <template>
-  <span class="spinner"></span>
+  <span class="uil-spinner"></span>
 </template>
 <style lang="scss" scoped>
-.spinner {
+.uil-spinner {
   &::after {
     @apply relative block border-2 rounded-full;
     border-top-color: transparent !important;

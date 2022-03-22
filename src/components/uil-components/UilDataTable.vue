@@ -8,13 +8,21 @@
               <uil-check-box :value="checkAll" @input="toggleCheckAll" />
             </th>
             <th v-for="(col, i) in cols" :key="i" @click="setSortBy(col)">
-              {{ col.name }}
-              <span class="sort-col" v-if="col.sort && col.id == sortBy.colId">
-                <i
-                  v-if="sortBy.direction == -1"
-                  class="bx bxs-down-arrow-alt"
-                ></i>
-                <i v-if="sortBy.direction == 1" class="bx bxs-up-arrow-alt"></i>
+              <span>
+                {{ col.name }}
+                <span
+                  class="sort-col"
+                  v-if="col.sort && col.id == sortBy.colId"
+                >
+                  <i
+                    v-if="sortBy.direction == -1"
+                    class="bx bxs-down-arrow-alt"
+                  ></i>
+                  <i
+                    v-if="sortBy.direction == 1"
+                    class="bx bxs-up-arrow-alt"
+                  ></i>
+                </span>
               </span>
             </th>
           </tr>
@@ -133,6 +141,9 @@ export default {
     }
     thead > tr > th {
       @apply text-gray-800 py-4;
+      & > span {
+        @apply flex w-max items-center;
+      }
     }
     tbody > tr > td {
       @apply select-text text-gray-700  font-normal;
@@ -141,12 +152,15 @@ export default {
         @apply select-text;
       }
     }
-    tbody > tr > td {
-      min-width: auto;
-      max-width: 200px;
-    }
-    tbody > tr > td:first-child {
-      min-width: auto;
+    tbody > tr > td,
+    thead > tr > th {
+      min-width: 150px;
+      width: 150px;
+      &:first-child,
+      &:last-child {
+        min-width: 25px;
+        width: 25px;
+      }
     }
     thead {
       @apply border-b;

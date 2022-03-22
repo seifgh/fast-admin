@@ -5,7 +5,6 @@
       <span>{{ formatedValue }}</span></a
     >
   </div>
-  <span v-else class="empty-col">- - -</span>
 </template>
 
 <script>
@@ -26,7 +25,7 @@ export default {
       return this.field.type.fileUrlGetter(this.value);
     },
     formatedValue() {
-      const valueFormater = this.field.type.valueFormater;
+      const valueFormater = this.field.type.valueFormater.show;
       if (valueFormater) {
         return valueFormater(this.fileUrl);
       }
@@ -46,9 +45,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .file-field a {
-  max-width: 150px;
-  @apply inline-flex items-center w-auto my-1 py-1 px-2 border 
-  rounded-lg text-gray-600 overflow-hidden;
+  @apply inline-flex items-center w-auto py-1 px-2 border 
+  rounded-lg  mr-2 mb-2;
 
   i {
     @apply text-lg mr-2;

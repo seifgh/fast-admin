@@ -1,7 +1,7 @@
 <template>
   <div>
-    <notifications />
     <loading />
+    <notifications />
     <router-view />
   </div>
 </template>

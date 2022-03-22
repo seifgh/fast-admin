@@ -1,6 +1,7 @@
 import ResourceField, { ResourceFieldType } from "./classes/ResourceField";
 import { resourcesGroups } from "./groups";
 import Resource from "./classes/Resource";
+import ClientResource from "./ClientResource";
 
 export default new Resource({
   id: "articles",
@@ -16,6 +17,9 @@ export default new Resource({
     new ResourceField({
       id: "_id",
       name: "ID",
+      display: {
+        show: true,
+      },
       type: new ResourceFieldType({ type: ResourceFieldType.types.STRING }),
     }),
     new ResourceField({
@@ -31,7 +35,12 @@ export default new Resource({
       isRequired: true,
       type: new ResourceFieldType({
         type: ResourceFieldType.types.TEXT,
-        valueFormater: (v) => v.slice(0, 100) + "...",
+        valueFormater: {
+          show: (v) => v.slice(0, 200) + "...",
+        },
+        customComponents: {
+          list: () => import("./../components/custom/ArticleContentCol.vue"),
+        },
       }),
     }),
     new ResourceField({
@@ -43,6 +52,67 @@ export default new Resource({
       id: "showAtHome",
       name: "Show at home",
       type: new ResourceFieldType({ type: ResourceFieldType.types.BOOLEAN }),
+    }),
+    new ResourceField({
+      id: "views",
+      name: "Views",
+
+      type: new ResourceFieldType({
+        type: ResourceFieldType.types.NUMBER,
+        customComponents: {
+          show: () => import("./../components/custom/ArticleViewsShow.vue"),
+        },
+      }),
+    }),
+    new ResourceField({
+      display: {
+        list: true,
+        show: true,
+        edit: true,
+      },
+      id: "publishedBy",
+      name: "Published by",
+      type: new ResourceFieldType({
+        isMultiple: true,
+        type: ResourceFieldType.types.RESOURCE,
+        resource: ClientResource,
+        isReference: true,
+      }),
+    }),
+    new ResourceField({
+      id: "likes",
+      name: "Liked by",
+      type: new ResourceFieldType({
+        isMultiple: true,
+        type: ResourceFieldType.types.RESOURCE,
+        customComponents: {
+          list: () => import("./../components/custom/ArticleLikesCol.vue"),
+        },
+        resource: new Resource({
+          id: "like",
+          fields: [
+            new ResourceField({
+              id: "fullName",
+              name: "Full name",
+              type: new ResourceFieldType({
+                type: ResourceFieldType.types.STRING,
+              }),
+            }),
+            new ResourceField({
+              id: "email",
+              name: "Email",
+              isTitle: true,
+              type: new ResourceFieldType({
+                type: ResourceFieldType.types.STRING,
+                valueFormater: {
+                  list: (v) => v.slice(0, 15) + "...",
+                  show: (v) => v.slice(0, 15) + "...",
+                },
+              }),
+            }),
+          ],
+        }),
+      }),
     }),
   ],
 });

@@ -1,8 +1,8 @@
 <template>
-  <div class="search-select-input mb-4">
+  <div class="uil-select-input">
     <label>{{ label }}</label>
-    <button @click.stop="toggleContent" class="">
-      <small>{{ selectedValue || $t("globals.emptySelectList") }} </small
+    <button @click.stop="toggleContent" type="button">
+      <small>{{ selectedValue || "Please select an option" }} </small
       ><svg
         class="icon"
         :class="{ ac: open }"
@@ -26,11 +26,11 @@
           <ul>
             <li
               v-for="option in options"
-              :key="option.id"
-              @click="updateValue(option.id)"
-              :class="{ ac: option.id === value }"
+              :key="option.value"
+              @click="updateValue(option.value)"
+              :class="{ ac: option.value === value }"
             >
-              {{ option.value }}
+              {{ option.label }}
             </li>
           </ul>
         </div>
@@ -56,8 +56,8 @@ export default {
   },
   computed: {
     selectedValue() {
-      const selected = this.options.find(({ id }) => id === this.value);
-      return selected && selected.value;
+      const selected = this.options.find(({ value }) => value === this.value);
+      return selected && selected.label;
     },
   },
   methods: {
@@ -80,11 +80,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search-select-input {
-  @apply relative;
+.uil-select-input {
+  @apply relative mb-4;
+  &.has-err {
+    button {
+      @apply border-danger;
+      animation: shake 0.3s;
+    }
+  }
 }
-.search-select-input > button {
-  @apply justify-between shadow-md w-full mt-1 mb-2 inline-flex bg-white items-center py-3 px-5 rounded-lg border font-medium h-12;
+.uil-select-input > button {
+  @apply justify-between shadow-sm w-full inline-flex bg-white items-center py-3 px-5 rounded-lg border font-medium h-12;
 
   &[type="color"]:focus {
     @apply border-gray-200;
@@ -117,8 +123,8 @@ button {
 .options {
   /* options container */
   top: 100%;
-  max-height: 24rem;
-  @apply absolute w-full bg-white h-auto z-20 right-0 mt-3 py-3 shadow-md rounded-md border overflow-auto;
+  max-height: 200px;
+  @apply mt-2 absolute w-full bg-white h-auto z-20 right-0 py-3 shadow-md rounded-md border overflow-auto;
 }
 li {
   @apply py-2 px-3 text-sm cursor-pointer;
@@ -129,11 +135,13 @@ li {
     @apply font-semibold text-primary bg-transparent;
   }
 }
-
+label {
+  @apply text-sm ml-1;
+}
 small {
   @apply text-sm;
   &.err {
-    @apply text-red-500;
+    @apply text-danger;
   }
 }
 </style>

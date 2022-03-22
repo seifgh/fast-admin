@@ -1,13 +1,13 @@
 <template>
   <section ref="dataTable" class="data-container">
-    <div class="actions">
-      <div class="bulk-actions">
-        <transition name="fade-down">
-          <list-bulk-actions v-if="selected.length" :resource="resource" />
-        </transition>
-      </div>
-      <div v-if="false" class="sorts"></div>
-    </div>
+    <transition name="fade-down">
+      <list-bulk-actions
+        v-if="selected.length"
+        :resource="resource"
+        :selectedRecords="selected"
+      />
+    </transition>
+    <list-table-filters :resource="resource" />
     <uil-data-table
       v-if="list.data.length"
       checkbox
@@ -43,11 +43,14 @@
           :value="col.value"
           :field="col.field"
         />
-        <list-data-table-actions-col :itemId="getListItemId(i)" />
+        <list-data-table-actions-col
+          :itemId="getListItemId(i)"
+          :resource="resource"
+        />
       </tr>
     </uil-data-table>
     <unexpected-error v-if="unexpectedError" />
-    <list-empty v-else-if="!list.pages && !isLoading" />
+    <list-empty v-else-if="listIsEmpty" />
   </section>
 </template>
 
@@ -60,6 +63,7 @@ import ListEmpty from "./ListEmpty.vue";
 import UnexpectedError from "../../shared/UnexpectedError.vue";
 import UilDataTable from "../../uil-components/UilDataTable.vue";
 import UilCheckBox from "../../uil-components/inputs/UilCheckBox.vue";
+import ListTableFilters from "./filters/ListTableFilters.vue";
 
 const initData = () => ({
   allCheck: false,
@@ -82,6 +86,7 @@ export default {
     UnexpectedError,
     UilDataTable,
     UilCheckBox,
+    ListTableFilters,
   },
   props: {
     resource: {
@@ -107,6 +112,7 @@ export default {
         },
       ];
     },
+
     formatedData() {
       return this.resource.getFormatedListData(this.list.data);
     },
@@ -124,11 +130,22 @@ export default {
     currentPage() {
       return Number.parseInt(this.$route.query.page) || 1;
     },
+    listIsEmpty() {
+      return !this.list.pages && !this.isLoading;
+    },
+    filters() {
+      const { filters } = this.$route.query;
+      try {
+        return JSON.parse(filters);
+      } catch (err) {
+        return [];
+      }
+    },
   },
   methods: {
     getListItemId(index) {
       const item = this.list.data[index];
-      return this.resource.getListDataItemId(item);
+      return this.resource.getRecordId(item);
     },
     async fetchList() {
       this.handleBeforeFetchActions();
@@ -137,6 +154,7 @@ export default {
           page: this.currentPage,
           limit: 6,
           sortBy: this.sortBy,
+          filters: this.filters,
         });
         this.list = list;
       } catch (err) {
@@ -148,7 +166,7 @@ export default {
       this.selected = [];
       this.unexpectedError = false;
       this.isLoading = true;
-      this.$startLoading();
+      this.$startLoading({ id: "home" });
     },
     handleAfterFetchActions() {
       this.$closeLoading();
@@ -196,6 +214,7 @@ export default {
           page: page,
           sortByColId: sortBy.colId,
           sortByDirection: sortBy.direction,
+          filters: this.$route.query.filters || [],
         },
       });
     },
@@ -203,7 +222,6 @@ export default {
   mounted() {
     // this.setDataFromUrlQuery();
     // this.updateUrlQuery();
-    console.log("hii");
     this.fetchList();
   },
   watch: {
@@ -236,26 +254,6 @@ tr {
   @apply mt-4 flex items-center justify-center pt-4;
   & > small {
     @apply block p-2 font-semibold text-gray-500;
-  }
-}
-.actions {
-  @apply w-full flex items-center justify-between flex-wrap;
-  & > * {
-    @apply w-1/2 flex items-center flex-wrap mb-2;
-    & > * {
-      @apply mb-2;
-    }
-  }
-  .sort-direction {
-    @screen sm {
-      @apply mr-2;
-    }
-  }
-  .bulk-actions {
-    @apply justify-start;
-  }
-  .sorts {
-    @apply justify-end;
   }
 }
 </style>

@@ -39,7 +39,10 @@ export default {
   },
   methods: {
     inputChange({ target }) {
-      const value = this.type == "number" ? target.valueAsNumber : target.value;
+      let value = target.value;
+      if (this.type == "number") {
+        value = value == "" ? null : Number(value);
+      }
       if (this.validator(value)) this.$emit("input", this.formatter(value));
     },
   },
@@ -49,12 +52,19 @@ export default {
 <style lang="scss" scoped>
 .text-input-container {
   @apply block mb-4;
+  &.has-err {
+    .text-input {
+      @apply border-danger;
+      animation: shake 0.3s;
+    }
+  }
 }
 
 .text-input {
-  @apply shadow-md w-full mt-1 mb-2 inline-flex bg-white items-center py-3 px-5 rounded-lg border font-medium h-12;
+  @apply shadow-sm w-full inline-flex bg-white items-center 
+  py-3 px-5 rounded-lg border font-medium;
   &:focus {
-    @apply border-primary;
+    @apply border-primary outline-none shadow-md;
   }
   &[type="color"]:focus {
     @apply border-gray-200;
@@ -70,11 +80,13 @@ export default {
     @apply rounded-md border-0 shadow-sm;
   }
 }
-
+label {
+  @apply text-sm ml-1;
+}
 small {
   @apply text-sm;
   &.err {
-    @apply text-red-500;
+    @apply text-danger;
   }
 }
 </style>

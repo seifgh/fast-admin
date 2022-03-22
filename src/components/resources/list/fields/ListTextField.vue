@@ -26,7 +26,7 @@ export default {
       if (this.field.type.hasChoices) {
         return this.field.type.getChoiceByValue(this.value);
       }
-      const valueFormater = this.field.type.valueFormater;
+      const valueFormater = this.field.type.valueFormater.list;
       if (valueFormater) {
         return valueFormater(this.value);
       }

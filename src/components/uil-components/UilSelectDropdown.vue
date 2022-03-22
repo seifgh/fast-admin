@@ -99,7 +99,7 @@ label {
   }
 }
 button {
-  @apply font-semibold text-gray-800;
+  @apply font-semibold;
   small {
     @apply font-normal;
   }

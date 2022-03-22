@@ -5,9 +5,7 @@
       <uil-breadcrumb :paths="breadcrumbPaths" />
     </div>
     <div class="buttons">
-      <uil-button type="txt" class="mr-2">
-        <i class="bx bx-filter-alt" /> Filters
-      </uil-button>
+      <create-list-filter :resource="resource" />
       <router-link :to="{ name: 'Create' }">
         <uil-button type="cl" hover>
           <i class="bx bx-plus" />
@@ -22,8 +20,9 @@
 import Resource from "../../../resources/classes/Resource";
 import UilBreadcrumb from "../../uil-components/UilBreadcrumb.vue";
 import UilButton from "../../uil-components/UilButton.vue";
+import CreateListFilter from "./filters/ListCreateFilter.vue";
 export default {
-  components: { UilButton, UilBreadcrumb },
+  components: { UilButton, UilBreadcrumb, CreateListFilter },
   props: {
     resource: {
       type: Resource,

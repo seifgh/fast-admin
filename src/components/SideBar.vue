@@ -111,7 +111,7 @@ export default {
     },
   },
   beforeMount() {
-    this.reduce = this.isMd;
+    this.reduce = this.isMd || localStorage.reduceSideBar == "true";
     this.activeGroup = this.getActiveGroup();
   },
   watch: {
@@ -123,6 +123,9 @@ export default {
         this.reduce = true;
       }
     },
+    reduce() {
+      localStorage.reduceSideBar = this.reduce;
+    },
   },
 };
 </script>
@@ -131,7 +134,7 @@ aside {
   --aside-width: 350px;
   width: var(--aside-width);
   @apply absolute bg-white p-4 pl-0 h-screen 
-  overflow-hidden overflow-y-auto border-r transition-all z-50;
+  overflow-hidden overflow-y-auto border-r transition-all z-40;
   @screen md {
     @apply relative;
   }

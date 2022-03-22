@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showLoading" class="loading-plugin">
+  <div v-if="showLoading" class="loading-plugin" :style="getPositionStyles()">
     <div class="spinner">
       <span class="spin"></span>
       <span class="spin spin-2"></span>
@@ -10,21 +10,46 @@
 </template>
 <script>
 export default {
+  props: {
+    id: {
+      type: String,
+      default: "root",
+    },
+  },
   computed: {
     message() {
       return this.$loading.message;
     },
     showLoading() {
-      return this.$loading.isLoading;
+      return this.$loading.isLoading && this.$loading.id == this.id;
+    },
+    // styles() {}
+  },
+  methods: {
+    getPositionStyles() {
+      const { parentElement } = this.$el;
+      const parentElementclientRect = parentElement.getBoundingClientRect();
+      return {
+        top: parentElementclientRect.top + "px",
+        left: parentElementclientRect.left + "px",
+        width: parentElementclientRect.width + "px",
+        height: parentElementclientRect.height + "px",
+      };
+    },
+  },
+  watch: {
+    "$loading.isLoading"() {
+      document.scrollingElement.style.overflow = this.showLoading
+        ? "hidden"
+        : "auto";
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .loading-plugin {
-  z-index: 9999;
-  @apply flex fixed flex-col items-center 
-  justify-center w-screen h-screen bg-gray-50 bg-opacity-40;
+  @apply z-50 fixed top-0 left-0 flex flex-col items-center 
+  justify-center w-full h-full bg-gray-100 bg-opacity-40;
 }
 small {
   @apply text-primary font-semibold mt-2;

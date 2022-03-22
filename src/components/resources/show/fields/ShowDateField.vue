@@ -29,7 +29,7 @@ export default {
      * @returns {{date: string, time: string}}
      */
     formatedValue() {
-      const valueFormater = this.field.type.valueFormater;
+      const valueFormater = this.field.type.valueFormater.show;
       if (valueFormater) {
         return valueFormater(this.Value);
       }

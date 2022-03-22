@@ -10,18 +10,22 @@ export default class Resource {
    * @param {import("./ResourceField").default[]} resource.fields
    * @param {string} resource.primaryKeyFieldName
    * @param {{colId: string?, direction: 1 | -1}} resource.defaultSortBy
+   * @param {import("./ResourceAction").default[]} resource.recordActions
+   * @param {import("./ResourceAction").default[]} resource.bulkActions
    */
   constructor({
     id,
     name = null,
     icon = null,
     group = null,
-    fields,
+    fields = [],
     primaryKeyFieldId = "id",
     defaultSortBy = {
       colId: null,
       direction: 1,
     },
+    recordActions = [],
+    bulkActions = [],
   }) {
     this.resourceId = id;
     this.name = name || id;
@@ -31,6 +35,8 @@ export default class Resource {
     this.primaryKeyFieldId = primaryKeyFieldId;
     if (defaultSortBy.colId == null) defaultSortBy.colId = primaryKeyFieldId;
     this.defaultSortBy = defaultSortBy;
+    this.recordActions = recordActions;
+    this.bulkActions = bulkActions;
   }
   /**
    * @param {string} fieldId
@@ -41,35 +47,65 @@ export default class Resource {
   getListFields() {
     return this.fields.filter((field) => field.display.list);
   }
+  getShowFields() {
+    return this.fields.filter((field) => field.display.show);
+  }
+  getFilterFields() {
+    return this.fields.filter(
+      (field) =>
+        field.filter &&
+        !(field.type.isImage || field.type.isFile || field.type.isResource)
+    );
+  }
   /**
    *
-   * @param {{}} item
+   * @param {{}} record
    * @param {import("./ResourceField").default[]} listFields
    * @returns {{value: any, field: import("./ResourceField").default}[]}
    */
-  formatListItem(item, listFields) {
-    return listFields.map((field) => ({
-      value: item[field.id],
+  formatRecordDataItem(record, fields) {
+    return fields.map((field) => ({
+      value: record[field.id],
       field,
     }));
+  }
+  getTitleField() {
+    return this.fields.find(({ isTitle }) => isTitle);
   }
 
   /**
    *
-   * @param {Array<{}>} dataList
+   * @param {Array<{}>} records
    * @returns {{value: any, field: import("./ResourceField").default}[][]}
    */
-  getFormatedListData(dataList) {
+  getFormatedListData(records) {
     const listFields = this.getListFields();
-    return dataList.map((item) => this.formatListItem(item, listFields));
+    return records.map((item) => this.formatRecordDataItem(item, listFields));
   }
   /**
    *
-   * @param {{}} item
+   * @param {{}} record
+   * @returns {{value: any, field: import("./ResourceField").default}[][]}
+   */
+  getFormatedRecordData(record) {
+    const showFields = this.getShowFields();
+    return this.formatRecordDataItem(record, showFields);
+  }
+  /**
+   *
+   * @param {{}} record
    * @returns {string | number}
    */
-  getListDataItemId(item) {
-    return item[this.primaryKeyFieldId];
+  getRecordId(record) {
+    return record[this.primaryKeyFieldId];
+  }
+  /**
+   *
+   * @param {{}} record
+   * @returns {string | number}
+   */
+  getRecordTitle(record) {
+    return record[this.getTitleField().id];
   }
 
   // Admin api requests
@@ -78,10 +114,10 @@ export default class Resource {
    * @param {number} args.page
    * @param {number} args.limit
    * @param {{colId: string, direction: 1 | -1}} args.sortBy
-   * @param {Object} args.filters
+   * @param {{col:string, filter: string, value: string}[]} args.filters
    * @returns {Promise<Object>}
    */
-  async getList({ page = 1, limit = 10, sortBy = null, filters = {} }) {
+  async getList({ page = 1, limit = 10, sortBy = null, filters = [] }) {
     const url = `${this.resourceId}/get-list`;
     sortBy = sortBy || this.defaultSortBy;
     const response = await apiClient.get(url, {

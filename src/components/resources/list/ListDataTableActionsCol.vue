@@ -17,6 +17,16 @@
             <i class="bx bx-edit-alt" />
             Edit
           </router-link>
+          <button
+            v-for="(action, i) in recordActions"
+            :key="i"
+            class="btn"
+            @click="handleActionBtnClick(action)"
+          >
+            <icon v-if="action.icon" :iconName="action.icon" />
+            <i v-else class="bx bx-customize" />
+            {{ action.name }}
+          </button>
           <button class="btn danger" @click.stop="handleDelete">
             <i class="bx bx-trash" />
             Delete
@@ -28,14 +38,25 @@
 </template>
 
 <script>
+import Resource from "../../../resources/classes/Resource";
 import UilButton from "../../uil-components/UilButton.vue";
+import Icon from "../../utilities/Icon.vue";
 import UilDropdown from "../../uil-components/UilDropdown.vue";
 export default {
-  components: { UilButton, UilDropdown },
+  components: { UilButton, UilDropdown, Icon },
   props: {
     itemId: {
       type: [String, Number],
       required: true,
+    },
+    resource: {
+      type: Resource,
+      required: true,
+    },
+  },
+  computed: {
+    recordActions() {
+      return this.resource.recordActions;
     },
   },
   methods: {
@@ -44,6 +65,12 @@ export default {
         this.$emit("delete", this.itemId);
       }
       document.scrollingElement.click();
+    },
+    async handleActionBtnClick(action) {
+      this.$startLoading({ id: "home" });
+      await action.handler(this.itemId);
+      this.$closeLoading();
+      this.$emit("refresh");
     },
   },
 };

@@ -7,7 +7,7 @@
       <div
         @click="handleContainerClick"
         ref="modalContainer"
-        v-show="open"
+        v-if="open"
         :class="modalContainerClassName"
       >
         <button v-if="closeBtn" title="Close modal" @click="toggleContent">
@@ -79,12 +79,13 @@ export default {
 <style lang="scss" scoped>
 .m-c {
   /* modal container */
-  @apply fixed z-30 left-0 top-0 flex  w-screen h-screen bg-black bg-opacity-50;
+  @apply fixed z-50 left-0 top-0 flex  w-screen 
+  h-screen bg-gray-600 bg-opacity-40;
   position: fixed;
 }
 .c-i {
   /* close icon */
-  @apply fixed z-30 left-0 top-0 m-4 w-8 text-gray-300;
+  @apply fixed z-30 left-0 top-0 m-4 w-6 text-gray-300;
   &:active {
     @apply transform scale-90;
   }

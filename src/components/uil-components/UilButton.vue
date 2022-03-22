@@ -1,8 +1,8 @@
 <template>
-  <div :role="role" @click="$emit('click')" :class="className">
+  <button :role="role" @click="$emit('click')" :class="className">
     <UilSpinnerLoading v-if="loading" />
     <slot v-else />
-  </div>
+  </button>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <transition-group name="fade-down" class="notifications">
+  <transition-group name="fade-right" class="notifications">
     <div
       @click="$closeNotification(not.id)"
       v-for="not in $notifications.list"
@@ -58,7 +58,7 @@ export default {
 <style lang="scss" scoped>
 .notifications {
   z-index: 9999;
-  @apply fixed left-0 top-0 w-full flex flex-col items-center justify-center overflow-y-visible max-h-screen h-auto;
+  @apply fixed right-0 top-0 flex flex-col items-center justify-center overflow-y-visible max-h-screen h-auto;
 }
 .notification-card {
   @screen md {
@@ -71,7 +71,7 @@ export default {
   z-index: 1000;
   box-shadow: 0px 1px 4px 0px #00000026;
   @apply relative flex items-start justify-start max-w-full
-   p-4 pr-8 rounded-md border border-dotted m-4 bg-white;
+   p-4 pr-8 rounded-l-md border border-dashed mt-4 bg-white;
 }
 .close-not {
   @apply absolute right-0 top-0 m-2;

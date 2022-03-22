@@ -1,6 +1,7 @@
 import ResourceField, { ResourceFieldType } from "./classes/ResourceField";
 import { resourcesGroups } from "./groups";
 import Resource from "./classes/Resource";
+import ResourceAction from "./classes/ResourceAction";
 
 export default new Resource({
   id: "clients",
@@ -27,14 +28,14 @@ export default new Resource({
       id: "firstName",
       name: "First name",
       isRequired: true,
-      isTitle: true,
       type: new ResourceFieldType({
         type: ResourceFieldType.types.STRING,
-        valueFormater: (v) => v.toUpperCase(),
+        valueFormater: { show: (v) => v.toUpperCase() },
       }),
     }),
     new ResourceField({
       id: "lastName",
+      isTitle: true,
       name: "Last name",
       isRequired: true,
       type: new ResourceFieldType({ type: ResourceFieldType.types.STRING }),
@@ -75,6 +76,30 @@ export default new Resource({
         isMultiple: true,
       }),
       sort: false,
+    }),
+  ],
+  bulkActions: [
+    new ResourceAction({
+      id: "deleteFiles",
+      // icon: "bx-trash",
+      name: "Delete files",
+      handler: (recordsIds) =>
+        new Promise((resolve) => {
+          console.log("Delete files action called for");
+          console.log({ recordsIds });
+          setTimeout(() => resolve(), 300);
+        }),
+    }),
+  ],
+  recordActions: [
+    new ResourceAction({
+      id: "deleteFiles",
+      // icon: "bx-trash",
+      name: "Delete files",
+      handler: (recordId) => {
+        console.log("Delete files action called for");
+        console.log({ recordId });
+      },
     }),
   ],
 });
